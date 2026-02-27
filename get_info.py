@@ -68,7 +68,7 @@ def get_urls():
         request = youtube.playlistItems().list(
             part="snippet,contentDetails",
             maxResults=25,  # 取得する最大件数（最大50）
-            # playlistId="PL8G4Ylahsmrrf6_uMWaQGNUBOf8COtlK5"  # 取得したいプレイリストのID
+            # playlistId="PL8G4Ylahsmrrf6_uMWaQGNUBOf8COtlK5"  #favoriteのplaylist ID
             playlistId="PL8G4YlahsmrqI2v3HEFaHfxiY1FaHPb0c"
         )
         response = request.execute()
@@ -76,26 +76,18 @@ def get_urls():
         # 結果を表示
         # print(f"🎵 プレイリスト内の動画一覧（ID: PL8G4Ylahsmrrf6_uMWaQGNUBOf8COtlK5）:")
         for item in response.get("items", []):
-            print(item["snippet"])
+            # print(item["snippet"])
             video_title = item["snippet"]["title"]
             video_id = item["contentDetails"]["videoId"]
             # print(f"URL is (https://www.youtube.com/watch?v={video_id})")
             url=f"https://www.youtube.com/watch?v={video_id}"
-            info={"title":video_title,"url":url}
+            info={"title":video_title,"url":url,"id":video_id}
             urls.append(info)
 
         # print("This is urls : ",urls)
     except HttpError as e:
         print(f"An HTTP error {e.resp.status} occurred: {e.content}")
     return urls
-
-def get_info():
-    music_info=get_urls()
-    # for music in music_info:
-    #     print(music)
-    #     url=music["url"]
-    #     music_name=["title"]
-    return music_info
 
     
 def delete_music(target_video_id):
