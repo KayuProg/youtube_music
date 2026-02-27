@@ -1,11 +1,20 @@
 from google import genai
+import json
+
+def load_client_from_json(path="./jsons/google_api.json"):
+    with open(path, "r", encoding="utf-8") as f:
+        config = json.load(f)
+
+    api_key = config["clients"][0]["api_key"]
+    return api_key
 
 def txt_gen(query):
 
     # client = genai.Client(api_key="AIzaSyCe-Y1lMCa6FN--a7fERC4TUf03j8li4RQ")
     # client = genai.Client(api_key="AIzaSyC1mksaQ31e2X3Eu53wDgtLv3WRE82KGW4")
     # client = genai.Client(api_key="AIzaSyB4UkQ09znjJ_k4oNKX6gDB0fOQfHDW9lQ")
-    client = genai.Client(api_key="AIzaSyB4UkQ09znjJ_k4oNKX6gDB0fOQfHDW9lQ")
+    api_key = load_client_from_json()
+    client = genai.Client(api_key=api_key)
 
 
     response = client.models.generate_content(
